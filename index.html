@@ -440,6 +440,7 @@ footer { color: inherit; }
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
       </ol>
 
       <!-- Wrapper for slides -->
@@ -461,16 +462,75 @@ footer { color: inherit; }
             <h4 id="thereisalreadyatermforthisideainthefollowingarchitectureyoucouldavoidmodifyingthecoresystemwhenaddingnewfunctionalitiesbyaddingthem_asplugins_">There is already a term for this idea. In the following architecture, you could avoid modifying the core  system when adding new functionalities, by adding them <em>as plugins</em>.</h4>
             <p><img src="https://i.imgur.com/6GyouoS.png" alt="" /></p>
 
-          <div class="carousel-caption">
-          </div>
+            <br/><br/>
+
         </div>
 
 
+        <div class="item">
 
+            <h1 id="theproblem">The problem</h1>
 
+            <p>Sometimes adding a feature requires also going to the main program and adding an import to the place the new feature is located, and using it.</p>
 
+            <p>Well, I say that's a violation of Open-Close violation, and here is how I propose avoiding such violation.</p>
+
+            <p>We can dissect the problem into 3 unmet requirements every new functionality seems to have.</p>
+
+            <ul>
+            <li>Discovery</li>
+            </ul>
+
+            <p>This is where the developer has to manually import the new functionality</p>
+
+            <ul>
+            <li>Condition</li>
+            </ul>
+
+            <p>Sometimes a condition will determine if the new functionality will be used</p>
+
+            <ul>
+            <li>Usage</li>
+            </ul>
+
+            <p>This is where the developer has to manually use the new functionality</p>
+
+            <h1 id="solution">Solution</h1>
+
+            <p><img src="https://i.imgur.com/AxiiVXs.png" alt="" /></p>
+
+            <h2 id="verbosepseudocode">Verbose pseudocode</h2>
+
+            <ul>
+            <li>Discovery</li>
+            </ul>
+
+            <p>The main program should have a commonplace for all new functionalities and import all of them dinamically</p>
+
+            <ul>
+            <li>Condition</li>
+            </ul>
+
+            <p>Each functionality should, given all of the program state, know how to determine by itself if he could be of help.
+            This is like the Chain of Responsability (CoR) pattern, except that usually with CoR, because of performance reasons, we would be giving a little bit of information to the new functionality.</p>
+
+            <p>Here we are giving <em>all</em> of the state for the new functionality to know if it wants to help or not.</p>
+
+            <p>All I can say is that this is ReduxJS making me go all in with the way of state handling. Everybody gets to read the program state!</p>
+
+            <ul>
+            <li>Usage</li>
+            </ul>
+
+            <p>You would iterate over the functionalities as tuples of <em>shouldTransform</em> and <em>transform</em> functions, give them the original state and get the transformed state back.
+            <br/>
+            <br/></p>
+            <br/><br/>
+
+        </div>
 
         <div class="item">
+          <br/><br/><br/>
 
             <h2 id="hereisoneimplementationiwouldsuggest">Here is one implementation I would suggest.</h2>
 
@@ -481,6 +541,7 @@ footer { color: inherit; }
             <p><img src="https://i.imgur.com/m9NdWzP.png" alt="" /></p>
           <div class="carousel-caption">
           </div>
+          <br/><br/>
         </div>
 
 
@@ -515,8 +576,9 @@ footer { color: inherit; }
               <p>Then you would map-reduce the object <code>conditionalActions</code> onto a new constant. The input would be the not<em>transformed</em> data, and the output would evaluate to the sum of all transformations performed if the <em>should</em> function did in fact return <code>true</code>.</p>
 
               <p>Here I am not taking into account the order of the transformations. In my case they did not overlap, but if they did the order should be provided by <code>'conditionalActions/index.js'.</code></p>
-          <div class="carousel-caption">
-          </div>
+
+              <br/><br/><br/>
+
         </div>
 
 
